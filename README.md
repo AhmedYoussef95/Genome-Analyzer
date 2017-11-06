@@ -6,7 +6,7 @@ DNA sequences pulled from GenBank.
 
 ## Video Walkthrough 
 
-<img src='https://imgur.com/a/tCSnV' title='Genome Analyzer Demo' width='' alt='Video Walkthrough' />
+<img src='https://media.giphy.com/media/26u4mR4OySNrwr0oE/giphy.gif'/>
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
