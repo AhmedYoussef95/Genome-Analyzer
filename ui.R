@@ -13,9 +13,7 @@ shinyUI(
                tags$a(href="https://github.com/AhmedYoussef95/Genome-Analyzer", "github.com/AhmedYoussef95")
       ), hr(),
       helpText(p(em('©️ Ahmed Youssef')))
-      #textInput('nationality','Nationality:', value = 'All'),
-      #checkboxGroupInput('foot','Preferred foot:',choices = c('Left','Right'),selected = c('Left','Right'))
-    ),
+      ),
     
     mainPanel(
       tabsetPanel(type = "tabs",
