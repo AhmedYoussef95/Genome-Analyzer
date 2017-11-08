@@ -4,8 +4,9 @@ shinyUI(
   titlePanel(title=div(img(src="dna_icon.png", height = 40, width = 35),'Genome Analyzer'), windowTitle = 'Genome Analyzer'),
   sidebarLayout(
     sidebarPanel(
-     # helpText('Display statistics for genomes of different organisms'), hr(),
-      selectInput('organism','Organism',choices = db$organism), hr(),
+      helpText('Compute and visualize statistics for genomes of different organisms'), hr(),
+      selectInput('organism','Organism',choices = db$organism,selectize = F),
+      textInput('acc','Or enter GenBank accession number'),hr(),
       p(strong('Description')),
       uiOutput('descrip'), hr(),
       tags$div(class="header", checked=NA,
