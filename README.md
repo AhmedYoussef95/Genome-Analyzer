@@ -1,6 +1,6 @@
 # Genome Analyzer
 http://ahmedyoussef.shinyapps.io/genome_analyzer <br />
-Simple app to compute and display statistics for genomes of different organisms.<br />
+Interactive web app to compute and display statistics for genomes of different organisms.<br />
 Developed using R and the R Shiny package. All packages used can be found in the 'global.R' file.
 DNA sequences pulled from GenBank.
 
