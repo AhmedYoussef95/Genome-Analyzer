@@ -4,9 +4,9 @@ Interactive web app to compute and display statistics for genomes and DNA segmen
 Developed using R and the R Shiny package. All packages used can be found in the 'global.R' file. <br />
 DNA sequences pulled from GenBank.
 
-## Video Walkthrough (for initial version)
+## Video Walkthrough
 
-<img src='https://media.giphy.com/media/26u4mR4OySNrwr0oE/giphy.gif'/>
+<img src='https://media.giphy.com/media/3oFzmdaqbj8IMmC6nC/giphy.gif'/>
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
