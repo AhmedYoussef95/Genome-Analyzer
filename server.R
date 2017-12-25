@@ -122,23 +122,19 @@ server <- function(input, output){
     #set up plot with 6 segments
     plot(c(1,length(sequence())), c(0,0), ylim=c(0,6), type="l", axes=F, 
            xlab="Nucleotide Position", ylab = '', main="Predicted open reading frames")
-     segments(1,1,length(sequence()),1)
-     segments(1,2,length(sequence()),2)
-     segments(1,3,length(sequence()),3)
-     segments(1,4,length(sequence()),4)
-     segments(1,5,length(sequence()),5)
+     segments(1,1,length(sequence()),1); segments(1,2,length(sequence()),2); segments(1,3,length(sequence()),3)
+     segments(1,4,length(sequence()),4); segments(1,5,length(sequence()),5)
      text(0,0.6,"Frame 1"); text(0,1.6,"Frame 2"); text(0,2.6,"Frame 3");
      text(0,3.6,"Frame 4"); text(0,4.6,"Frame 5"); text(0,5.6,"Frame 6");
      axis(1, pos=0)
     
     # determine lengths of open reading frames
-     orflengths = numeric()
+    orflengths = numeric()
     for (frame in 1:6){
       v <- openReadingFrames[frame,]
       v <- v[!is.na(v)]
       for(i in seq(1,length(v)-1,2))
         orflengths <- append(orflengths,(v[i+1]-v[i]))
-        #rect(v[i],frame-1,v[i+1],frame-0.2,col="orange",border="red")
     }
      
     # plot frames whose lengths fall in the 95th percentile (most probable candidates)
