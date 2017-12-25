@@ -113,6 +113,7 @@ server <- function(input, output){
   }, options = list(columnDefs = list(list(targets=c(2),orderable=F))) )
   
   output$orf <- renderPlot({
+    tryCatch({
     #findORFs is defined in global.R
     forwardStrand <- findORFs(c2s(sequence()))
     reverseStrand <- findORFs(c2s(rev(comp(sequence()))))
@@ -140,7 +141,7 @@ server <- function(input, output){
         #rect(v[i],frame-1,v[i+1],frame-0.2,col="orange",border="red")
     }
      
-    # plot frames whose lengths fall in the 95th percentile (more probable candidates)
+    # plot frames whose lengths fall in the 95th percentile (most probable candidates)
      for (frame in 1:6){
        v <- openReadingFrames[frame,]
        v <- v[!is.na(v)]
@@ -149,6 +150,7 @@ server <- function(input, output){
            rect(v[i],frame-1,v[i+1],frame-0.6,col="#EE7600",border="black")
        }
      }
-       
+    }, error = function(e){helpText("Invalid accession number")})
       })
+  
 }
