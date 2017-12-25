@@ -23,7 +23,8 @@ shinyUI(
       tabsetPanel(type = "tabs", id = "tabs",
                   tabPanel("Base Counts", box(uiOutput("length"),uiOutput('Acount'), uiOutput('Ccount'), uiOutput('Gcount'), uiOutput('Tcount')), box(plotlyOutput('pie'))),
                   tabPanel("GC Content", tags$style(HTML(".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {background: #EE7600}")), sliderInput('window','Number of Windows', min = 5, max=300, value = 20,width = "100%"),withSpinner(plotOutput('gc', height = 500),type = getOption("spinner.type", default = 8))),
-                  tabPanel("N-mers", numericInput('nmers','Number of consecutive nucleotides (N)',value = 2,min = 2,max = 6),DT::dataTableOutput('nmer table'),style = "background-color: #7e8b9a;")
+                  tabPanel("N-mers", numericInput('nmers','Number of consecutive nucleotides (N)',value = 2,min = 2,max = 6),DT::dataTableOutput('nmer table'),style = "background-color: #7e8b9a;"),
+                  tabPanel("Open Reading Frames", withSpinner(plotOutput('orf', height = 600),type = getOption("spinner.type", default = 8)))
                   )
     )
   )
