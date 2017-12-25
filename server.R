@@ -34,6 +34,11 @@ server <- function(input, output){
       helpText('An N-mer is a group of N consecutive nucleotides in a sequence. 
                There are 4^N unique N-mers in any DNA sequence.
                Several N-mers of biological importance across species have been identified, such as the TATA promoter region.')
+    else if (input$tabs == 'Open Reading Frames')
+      helpText('An open reading frame is a potential protein-coding region within a DNA sequence. 
+               Open reading frames begin with the start codon ATG and end with one of three different stop codons.
+               Each DNA sequence has six different reading frames; three for the forward strand and likewise for the reverse strand.
+               NOTE: Plotting open reading frames for larger genomes may take a while.')
     
   })
   
@@ -89,10 +94,10 @@ server <- function(input, output){
       chunkGCs <- numeric(n) # Make a vector of the same length as vector "starts", but just containing zeroes
       for (i in 1:n) {
         chunk <- sequence()[starts[i]:(starts[i]+window-1)]
-        chunkGC <- GC(chunk)*100
+        chunkGC <- GC(chunk)*100 #convert GC ratio to %
         chunkGCs[i] <- chunkGC
       }
-      plot(starts,chunkGCs,type="b",xlab="Nucleotide start position",ylab="GC content (%)",main = "GC Content")
+      plot(starts,chunkGCs,type="b",xlab="Nucleotide position",ylab="GC content (%)",main = "GC Content")
       abline(h = mean(chunkGCs), col = "#EE7600", lty = 2)
       text(x = starts[2],y = mean(chunkGCs),pos=3, col = '#EE7600', labels = paste('mean',round(mean(chunkGCs),1),'%'))
     }, error = function(e){helpText("Invalid accession number")})
@@ -106,4 +111,44 @@ server <- function(input, output){
     t <- data.frame(t)
     DT::datatable(t) %>% formatStyle(columns = c(1,2),color = 'black')
   }, options = list(columnDefs = list(list(targets=c(2),orderable=F))) )
+  
+  output$orf <- renderPlot({
+    #findORFs is defined in global.R
+    forwardStrand <- findORFs(c2s(sequence()))
+    reverseStrand <- findORFs(c2s(rev(comp(sequence()))))
+    openReadingFrames <- rbind.fill.matrix(forwardStrand,reverseStrand) #matrix that contains the 6 ORFs
+    
+    #set up plot with 6 segments
+    plot(c(1,length(sequence())), c(0,0), ylim=c(0,6), type="l", axes=F, 
+           xlab="Nucleotide Position", ylab = '', main="Predicted open reading frames")
+     segments(1,1,length(sequence()),1)
+     segments(1,2,length(sequence()),2)
+     segments(1,3,length(sequence()),3)
+     segments(1,4,length(sequence()),4)
+     segments(1,5,length(sequence()),5)
+     text(0,0.6,"Frame 1"); text(0,1.6,"Frame 2"); text(0,2.6,"Frame 3");
+     text(0,3.6,"Frame 4"); text(0,4.6,"Frame 5"); text(0,5.6,"Frame 6");
+     axis(1, pos=0)
+    
+    # determine lengths of open reading frames
+     orflengths = numeric()
+    for (frame in 1:6){
+      v <- openReadingFrames[frame,]
+      v <- v[!is.na(v)]
+      for(i in seq(1,length(v)-1,2))
+        orflengths <- append(orflengths,(v[i+1]-v[i]))
+        #rect(v[i],frame-1,v[i+1],frame-0.2,col="orange",border="red")
+    }
+     
+    # plot frames whose lengths fall in the 95th percentile (more probable candidates)
+     for (frame in 1:6){
+       v <- openReadingFrames[frame,]
+       v <- v[!is.na(v)]
+       for(i in seq(1,length(v)-1,2)){
+         if(  (v[i+1]-v[i]) > quantile(orflengths, probs=c(0.95))  )
+           rect(v[i],frame-1,v[i+1],frame-0.6,col="#EE7600",border="black")
+       }
+     }
+       
+      })
 }
